@@ -3,212 +3,280 @@
 <head>
   <link rel="icon" type="image/png" href="favicon.png">
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Utilitário Herborista</title>
   <style>
     :root {
-      --bg-claro: #547442;
-      --container-claro: #f1e0bc;
-      --input-claro: #4a5741;
-      --text-claro: #000000;
+      --bg: #4a5f3a;
+      --bg-dark: #2c3a24;
+      --card: #f1e0bc;
+      --card-dark: #6b5c3d;
+      --accent: #8ba46a;
+      --text: #222;
+      --text-dark: #eee;
+      --input: #e8d9b0;
+    }
 
-      --bg-escuro: #2f4227;
-      --container-escuro: #867659;
-      --input-escuro: #4a5741;
-      --text-escuro: #000000;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
-      margin: 0;
-      padding: 40px 20px;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: var(--bg-claro);
-      color: var(--text-claro);
-      transition: all 0.3s ease;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: linear-gradient(135deg, var(--bg), #3d4f2f);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 20px;
+      transition: all 0.4s ease;
     }
+
     .dark-mode {
-      background-color: var(--bg-escuro);
-      color: var(--text-escuro);
+      background: linear-gradient(135deg, var(--bg-dark), #1f2a1a);
+      color: var(--text-dark);
     }
-    .container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 40px;
-      justify-content: center;
-      align-items: flex-start;
-    }
-    .box {
-      background-color: var(--container-claro);
-      border-radius: 25px;
-      padding: 30px;
-      width: 100%;
-      max-width: 550px;
-      box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
-      transition: background 0.3s ease, color 0.3s ease;
-    }
-    .dark-mode .box {
-      background-color: var(--container-escuro);
-    }
-    .titulo {
-      font-size: 28px;
-      font-weight: bold;
+
+    .header {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 40px;
+      animation: fadeInDown 0.8s ease;
     }
+
+    .header h1 {
+      font-size: 2.8rem;
+      margin-bottom: 8px;
+      text-shadow: 0 3px 10px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+
+    .box {
+      background: var(--card);
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: fadeInUp 0.6s ease backwards;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .box:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .dark-mode .box { background: var(--card-dark); }
+
+    .titulo {
+      font-size: 1.85rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 24px;
+      color: #2c3a24;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .dark-mode .titulo { color: #f1e0bc; }
+
     label {
-      font-size: 18px;
-      margin: 10px 0 5px;
       display: block;
+      margin: 18px 0 8px;
+      font-weight: 600;
+      font-size: 1.05rem;
     }
+
     input, select {
       width: 100%;
-      padding: 12px;
-      font-size: 16px;
+      padding: 14px 16px;
       border: none;
-      border-radius: 8px;
-      background-color: var(--input-claro);
-      color: var(--container-claro);
-      margin-bottom: 15px;
-      box-sizing: border-box;
-      transition: background 0.3s ease, color 0.3s ease;
+      border-radius: 12px;
+      background: var(--input);
+      font-size: 1.05rem;
+      transition: all 0.3s ease;
     }
-    .dark-mode input,
-    .dark-mode select {
-      background-color: var(--input-escuro);
-      color: var(--text-escuro);
+
+    input:focus, select:focus {
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(139, 164, 106, 0.4);
+      transform: scale(1.02);
     }
-    .resultado, #resultados {
-      font-size: 18px;
-      padding: 10px;
-      background-color: #4a5741;
+
+    .dark-mode input, .dark-mode select {
+      background: #4a3f2a;
       color: #f1e0bc;
-      border-radius: 8px;
-      max-height: 450px;
+    }
+
+    .resultado {
+      margin-top: 20px;
+      padding: 20px;
+      background: #2c3a24;
+      color: #f1e0bc;
+      border-radius: 16px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      text-align: center;
+      animation: popIn 0.4s ease;
+    }
+
+    #resultados {
+      margin-top: 20px;
+      padding: 20px;
+      background: rgba(44, 58, 36, 0.15);
+      border-radius: 16px;
+      max-height: 520px;
       overflow-y: auto;
+      animation: fadeIn 0.5s ease;
     }
-    .dark-mode .resultado,
-    .dark-mode #resultados {
-      background-color: #4a5741;
-      color: #000000;
-    }
-    .modo-btn {
-      background-color: #000000;
-      color: #fff;
-      padding: 10px 20px;
-      border-radius: 50px;
-      font-weight: bold;
-      margin-bottom: 30px;
-      cursor: pointer;
-    }
-    .modo-btn:hover {
-      background-color: #1f1f1f;
-    }
+
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 10px;
+      margin: 15px 0;
+      background: rgba(255,255,255,0.1);
+      border-radius: 12px;
+      overflow: hidden;
     }
-    th, td {
-      padding: 6px 8px;
-      border-bottom: 1px solid #3b4a2f;
+
+    th {
+      background: var(--accent);
+      color: white;
+      padding: 14px 12px;
       text-align: left;
     }
-    th {
-      background-color: #6a7a4a;
-    }
-    h2, h3 {
-      margin-top: 15px;
-      margin-bottom: 8px;
-    }
-    @media (max-width: 1000px) {
-      .container {
-        flex-direction: column;
-        align-items: center;
-      }
-    }
-    #modo-container {
-  position: fixed;
-  bottom: 10px;
-  left: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 5px;
-  z-index: 1000;
-}
 
-#modo-container .modo-btn {
-  margin-bottom: 0;
-}
+    td {
+      padding: 12px;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      transition: background 0.2s;
+    }
 
-#modo-container a {
-  color: white;
-  font-size: 14px;
-  text-decoration: none;
-}
+    tr:hover { background: rgba(255,255,255,0.25); }
 
-.dark-mode #modo-container a {
-  color: black;
-}
+    .modo-btn {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: rgba(0,0,0,0.75);
+      color: white;
+      border: none;
+      padding: 14px 22px;
+      border-radius: 50px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+      z-index: 1000;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modo-btn:hover {
+      transform: scale(1.08) translateY(-3px);
+      background: #000;
+    }
+
+    .icon { width: 32px; height: 32px; fill: currentColor; }
+
+    /* Animações */
+    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 60% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
   </style>
 </head>
 <body>
-  <div id="modo-container">
-  <button class="modo-btn" onclick="alternarModo()">Modo Claro/Escuro</button>
-  <a href="https://discord.gg/YPYUMruRt9" target="_blank">Criado por Bresolindo (v3.0)</a>
-</div>
-
+  <div class="header">
+    <h1>
+      <svg class="icon" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      Utilitário Herborista
+    </h1>
+    <p>🌱 Ferramenta completa para crafters</p>
+  </div>
 
   <div class="container">
-    <div class="box">
-      <div class="titulo">Calculadora de Preço</div>
-      <label for="valor">Valor unitário:</label>
-      <input type="number" id="valor" step="0.01" placeholder="Ex: 0.50" oninput="calcularTotalPreco()" />
+    <!-- Calculadora de Preço -->
+    <div class="box" style="animation-delay: 0.1s">
+      <div class="titulo">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"/></svg>
+        Calculadora de Preço
+      </div>
+      
+      <label for="valor">Valor unitário ($)</label>
+      <input type="number" id="valor" step="0.01" placeholder="Ex: 0.50" oninput="calcularTotalPreco()">
 
-      <label for="quantidadeBR">Quantidade:</label>
-      <input type="number" id="quantidadeBR" placeholder="Ex: 3" oninput="calcularTotalPreco()" />
+      <label for="quantidadeBR">Quantidade</label>
+      <input type="number" id="quantidadeBR" placeholder="Ex: 3" oninput="calcularTotalPreco()">
 
-      <div class="resultado" id="resultado"></div>
+      <div class="resultado" id="resultado">Total aparecerá aqui...</div>
     </div>
 
-    <div class="box">
-      <div class="titulo">Calculadora de Craft</div>
-      <label for="categoria">Categoria:</label>
+    <!-- Calculadora de Craft -->
+    <div class="box" style="animation-delay: 0.3s">
+      <div class="titulo">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2zm-8-4H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2z"/></svg>
+        Calculadora de Craft
+      </div>
+      
+      <label for="categoria">Categoria</label>
       <select id="categoria" onchange="popularProdutos(); calcularHerborista()">
         <option value="">-- Selecione --</option>
       </select>
 
-      <label for="produto">Produto:</label>
+      <label for="produto">Produto</label>
       <select id="produto" onchange="calcularHerborista()">
         <option value="">-- Selecione --</option>
       </select>
 
-      <label for="quantidadeH">Quantidade desejada:</label>
-      <input type="number" id="quantidadeH" min="1" value="1" oninput="calcularHerborista()" />
+      <label for="quantidadeH">Quantidade desejada</label>
+      <input type="number" id="quantidadeH" min="1" value="1" oninput="calcularHerborista()">
 
       <div id="resultados"></div>
     </div>
   </div>
 
+  <button class="modo-btn" onclick="alternarModo()">
+    <span id="modo-icon">🌗</span> Modo Escuro
+  </button>
+
+  <div style="text-align:center; margin-top:50px; color:rgba(255,255,255,0.7); font-size:0.95rem;">
+    Criado por Bresolindo (v3.2) • 
+    <a href="https://discord.gg/YPYUMruRt9" target="_blank" style="color:inherit;">Discord</a>
+  </div>
+
 <script>
   function alternarModo() {
     document.body.classList.toggle('dark-mode');
+    const icon = document.getElementById('modo-icon');
+    icon.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌗';
   }
 
-  // --- Calculadora de Preço simples ---
+  // ===================== CALCULADORA DE PREÇO =====================
   function calcularTotalPreco() {
     const valor = parseFloat(document.getElementById('valor').value);
     const quantidade = parseInt(document.getElementById('quantidadeBR').value);
     const resultado = document.getElementById('resultado');
 
     if (isNaN(valor) || isNaN(quantidade)) {
-      resultado.textContent = "";
+      resultado.textContent = "Total aparecerá aqui...";
       return;
     }
     const total = valor * quantidade;
-    resultado.textContent = `Total a cobrar: $${total.toFixed(2)}`;
+    resultado.innerHTML = `Total a cobrar: <span style="color:#a3d977; font-size:1.3em;">$${total.toFixed(2)}</span>`;
   }
 
-  // --- Dados para a calculadora de craft ---
-  // Materiais básicos com custo direto
+  // ===================== DADOS ORIGINAIS =====================
   const materiais = {
     "Garrafa Vazia": 0.04, "Álcool": 0.15, "Água Destilada": 0.05, "Garrafa de Água": 0.02, "Querosene": 0.08,
     "Sal": 0.03, "Torrão de Açúcar": 0.03, "Algodão": 0.02, "Carvão Mineral": 0.03, "Ovo de Jacaré": 0.05,
@@ -221,117 +289,37 @@
     "Dama da Noite": 0.05, "Secador de Tecido": 0.00
   };
 
-  // Receitas completas de craft, incluindo rendimento e materiais
   const receitas = {
     "Bebidas": {
-      "Chá de Baunilha": {
-        quantidadeProduzida: 1,
-        materiais: { "Flor de Baunilha": 3, "Garrafa de Água": 1, "Torrão de Açúcar": 1 },
-        valorUnitario: 0.25
-      },
-      "Chá de Coelho": {
-        quantidadeProduzida: 1,
-        materiais: { "Flor de Baunilha": 3, "Garrafa de Água": 1, "Torrão de Açúcar": 1 },
-        valorUnitario: 0.25
-      }
+      "Chá de Baunilha": { quantidadeProduzida: 1, materiais: { "Flor de Baunilha": 3, "Garrafa de Água": 1, "Torrão de Açúcar": 1 }, valorUnitario: 0.25 },
+      "Chá de Coelho": { quantidadeProduzida: 1, materiais: { "Flor de Baunilha": 3, "Garrafa de Água": 1, "Torrão de Açúcar": 1 }, valorUnitario: 0.25 }
     },
     "Consumíveis": {
-      "Estabilizante": {
-        quantidadeProduzida: 3,
-        materiais: { "Solução Medicinal": 1, "Veneno de Sapo": 1, "Preparo de Ervas": 1, "Maitake": 1 },
-        valorUnitario: 0.30
-      },
-      "Antídoto": {
-        quantidadeProduzida: 1,
-        materiais: { "Solução Medicinal": 2, "Tabaco Indiano": 6, "Papoula da Padaria": 6, "Veneno de Cobra": 1 },
-        valorUnitario: 1.25
-      },
-      "Ataduras": {
-        quantidadeProduzida: 6,
-        materiais: { "Álcool": 1, "Fibra Vegetal": 1, "Algodão": 6 },
-        valorUnitario: 0.10
-      },
-      "Tônico": {
-        quantidadeProduzida: 2,
-        materiais: { "Solução Medicinal": 1, "Preparo de Ervas": 1, "Cassis": 2, "Garrafa Vazia": 2 },
-        valorUnitario: 0.35
-      },
-      "Tônico potente": {
-        quantidadeProduzida: 2,
-        materiais: { "Solução Medicinal": 1, "Preparo de Ervas": 1, "Cassis Dourado": 6, "Ovo de Jacaré": 1, "Garrafa Vazia": 2 },
-        valorUnitario: 0.75
-      },
-      "Suplemento para cavalos": {
-        quantidadeProduzida: 4,
-        materiais: { "Preparo de Ervas": 1, "Maitake": 1, "Quinina Silvestre": 1, "Cenoura Selvagem": 1 },
-        valorUnitario: 0.10
-      },
-      "Sabonete": {
-        quantidadeProduzida: 2,
-        materiais: { "Gordura Animal": 3, "Framboesa": 1, "Menta": 1, "Amora": 1 },
-        valorUnitario: 0.05
-      },
-      "Sabonete de Glicínia": {
-        quantidadeProduzida: 2,
-        materiais: { "Gordura Animal": 3, "Framboesa": 1, "Menta": 1, "Amora": 1, "Glicínia": 1 },
-        valorUnitario: 0.25
-      }
+      "Estabilizante": { quantidadeProduzida: 3, materiais: { "Solução Medicinal": 1, "Veneno de Sapo": 1, "Preparo de Ervas": 1, "Maitake": 1 }, valorUnitario: 0.30 },
+      "Antídoto": { quantidadeProduzida: 1, materiais: { "Solução Medicinal": 2, "Tabaco Indiano": 6, "Papoula da Padaria": 6, "Veneno de Cobra": 1 }, valorUnitario: 1.25 },
+      "Ataduras": { quantidadeProduzida: 6, materiais: { "Álcool": 1, "Fibra Vegetal": 1, "Algodão": 6 }, valorUnitario: 0.10 },
+      "Tônico": { quantidadeProduzida: 2, materiais: { "Solução Medicinal": 1, "Preparo de Ervas": 1, "Cassis": 2, "Garrafa Vazia": 2 }, valorUnitario: 0.35 },
+      "Tônico potente": { quantidadeProduzida: 2, materiais: { "Solução Medicinal": 1, "Preparo de Ervas": 1, "Cassis Dourado": 6, "Ovo de Jacaré": 1, "Garrafa Vazia": 2 }, valorUnitario: 0.75 },
+      "Suplemento para cavalos": { quantidadeProduzida: 4, materiais: { "Preparo de Ervas": 1, "Maitake": 1, "Quinina Silvestre": 1, "Cenoura Selvagem": 1 }, valorUnitario: 0.10 },
+      "Sabonete": { quantidadeProduzida: 2, materiais: { "Gordura Animal": 3, "Framboesa": 1, "Menta": 1, "Amora": 1 }, valorUnitario: 0.05 },
+      "Sabonete de Glicínia": { quantidadeProduzida: 2, materiais: { "Gordura Animal": 3, "Framboesa": 1, "Menta": 1, "Amora": 1, "Glicínia": 1 }, valorUnitario: 0.25 }
     },
     "Materiais": {
-      "Solução para curtir": {
-        quantidadeProduzida: 6,
-        materiais: { "Garrafa de Água": 6, "Amoníaco": 1, "Sal": 3 },
-        valorUnitario: 0.18
-      },
-      "Solução Medicinal": {
-        quantidadeProduzida: 1,
-        materiais: { "Água Destilada": 1, "Álcool": 1, "Garrafa Vazia": 1 },
-        valorUnitario: 0.35
-      },
-      "Preparo de Ervas": {
-        quantidadeProduzida: 1,
-        materiais: { "Ginseng Alasca": 1, "Ginseng Americano": 1, "Salvia Oleandro": 1, "Salvia Beija flor": 1 },
-        valorUnitario: 0.25
-      },
-      "Amoníaco": {
-        quantidadeProduzida: 1,
-        materiais: { "Álcool": 1, "Água Destilada": 1, "Chifre de Cariacu": 1, "Garra de Raposa": 1, "Gordura Animal": 3 },
-        valorUnitario: 0.50
-      },
-      "Tinta": {
-        quantidadeProduzida: 12,
-        materiais: { "Querosene": 1, "Galhada de Uapiti": 2, "Carvão Mineral": 3 },
-        valorUnitario: 0.10
-      },
-      "Goma de Maitake": {
-        quantidadeProduzida: 5,
-        materiais: { "Maitake": 3, "Torrão de Açúcar": 3, "Garrafa de Água": 3 },
-        valorUnitario: 0.08
-      },
-      "Secador de Tecido": {
-        quantidadeProduzida: 1,
-        materiais: { "Fibra Vegetal": 3, "Algodão": 3 },
-        valorUnitario: 0.00
-      },
-      "Resina seca de papoula": {
-        quantidadeProduzida: 5,
-        materiais: { "Papoula da Padaria": 3, "Garrafa Vazia": 5, "Secador de Tecido": 1 },
-        valorUnitario: 0.10
-      },
-      "Buquê": {
-        quantidadeProduzida: 1,
-        materiais: { "Cassis Dourado": 1, "Salvia Beija flor": 1, "Margarida Chocolate": 1, "Gorro Azul Texano": 1, "Dama da Noite": 1, "Fibra Vegetal": 2 },
-        valorUnitario: 10.00
-      }
+      "Solução para curtir": { quantidadeProduzida: 6, materiais: { "Garrafa de Água": 6, "Amoníaco": 1, "Sal": 3 }, valorUnitario: 0.18 },
+      "Solução Medicinal": { quantidadeProduzida: 1, materiais: { "Água Destilada": 1, "Álcool": 1, "Garrafa Vazia": 1 }, valorUnitario: 0.35 },
+      "Preparo de Ervas": { quantidadeProduzida: 1, materiais: { "Ginseng Alasca": 1, "Ginseng Americano": 1, "Salvia Oleandro": 1, "Salvia Beija flor": 1 }, valorUnitario: 0.25 },
+      "Amoníaco": { quantidadeProduzida: 1, materiais: { "Álcool": 1, "Água Destilada": 1, "Chifre de Cariacu": 1, "Garra de Raposa": 1, "Gordura Animal": 3 }, valorUnitario: 0.50 },
+      "Tinta": { quantidadeProduzida: 12, materiais: { "Querosene": 1, "Galhada de Uapiti": 2, "Carvão Mineral": 3 }, valorUnitario: 0.10 },
+      "Goma de Maitake": { quantidadeProduzida: 5, materiais: { "Maitake": 3, "Torrão de Açúcar": 3, "Garrafa de Água": 3 }, valorUnitario: 0.08 },
+      "Secador de Tecido": { quantidadeProduzida: 1, materiais: { "Fibra Vegetal": 3, "Algodão": 3 }, valorUnitario: 0.00 },
+      "Resina seca de papoula": { quantidadeProduzida: 5, materiais: { "Papoula da Padaria": 3, "Garrafa Vazia": 5, "Secador de Tecido": 1 }, valorUnitario: 0.10 },
+      "Buquê": { quantidadeProduzida: 1, materiais: { "Cassis Dourado": 1, "Salvia Beija flor": 1, "Margarida Chocolate": 1, "Gorro Azul Texano": 1, "Dama da Noite": 1, "Fibra Vegetal": 2 }, valorUnitario: 10.00 }
     }
   };
 
-  // --- Função para calcular custo unitário real do item, considerando subprodutos ---
   function calcularCustoItem(item) {
-    // Se for material básico (com preço direto), retorna logo o valor
     if (materiais[item] !== undefined) return materiais[item];
 
-    // Senão, busca receita e calcula custo somando custo dos materiais multiplicados
     for (const categoria in receitas) {
       if (receitas[categoria][item]) {
         const receita = receitas[categoria][item];
@@ -342,15 +330,11 @@
         return custoTotal / receita.quantidadeProduzida;
       }
     }
-    // Caso não encontre, retorna 0
     return 0;
   }
 
-  // --- Popula categorias ---
   const categoriaSelect = document.getElementById('categoria');
   const produtoSelect = document.getElementById('produto');
-  const quantidadeInput = document.getElementById('quantidadeH');
-  const resultadosDiv = document.getElementById('resultados');
 
   for (const cat in receitas) {
     const opt = document.createElement('option');
@@ -371,11 +355,11 @@
     }
   }
 
-  // --- Função principal de cálculo da calculadora de craft ---
   function calcularHerborista() {
     const categoria = categoriaSelect.value;
     const produto = produtoSelect.value;
-    const quantidade = parseInt(quantidadeInput.value);
+    const quantidade = parseInt(document.getElementById('quantidadeH').value);
+    const resultadosDiv = document.getElementById('resultados');
 
     if (!categoria || !produto || !quantidade || quantidade <= 0) {
       resultadosDiv.innerHTML = "";
@@ -384,19 +368,14 @@
 
     const receita = receitas[categoria][produto];
     const multiplicador = Math.ceil(quantidade / receita.quantidadeProduzida);
-
-    // Calcula custo total da venda (preço oficial vezes quantidade)
     const valorVendaTotal = receita.valorUnitario * quantidade;
 
-    // Monta o resultado HTML
     let html = `<h2>${produto}</h2>`;
-   
     html += `<p><strong>Valor unitário:</strong> $${receita.valorUnitario.toFixed(2)}</p>`;
-    html += `<p><strong>Valor total:</strong> $${valorVendaTotal.toFixed(2)}</p>`;
+    html += `<p><strong>Valor total de venda:</strong> $${valorVendaTotal.toFixed(2)}</p>`;
 
-    // Tabela materiais com quantidade, custo unitário e custo total
     html += `<h3>Materiais necessários:</h3>`;
-    html += `<table><thead><tr><th>Item</th><th>Quantidade total</th><th>Custo unitário</th><th>Custo total</th></tr></thead><tbody>`;
+    html += `<table><thead><tr><th>Item</th><th>Quantidade</th><th>Custo Unit.</th><th>Custo Total</th></tr></thead><tbody>`;
 
     let custoTotalMateriais = 0;
     for (const mat in receita.materiais) {
@@ -415,10 +394,8 @@
     html += `</tbody></table>`;
 
     html += `<h3><strong>Custo total dos materiais: $${custoTotalMateriais.toFixed(2)}</strong></h3>`;
-
     resultadosDiv.innerHTML = html;
   }
 </script>
-
 </body>
 </html>
