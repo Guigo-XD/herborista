@@ -362,55 +362,64 @@
     }
   }
 
-  function calcularHerborista() {
-    const categoria = categoriaSelect.value;
-    const produto = produtoSelect.value;
-    const quantidade = parseInt(document.getElementById('quantidadeH').value);
-    const resultadosDiv = document.getElementById('resultados');
+<!-- Substitua apenas a função calcularHerborista() pela nova abaixo -->
 
-    if (!categoria || !produto || !quantidade || quantidade <= 0) {
-      resultadosDiv.innerHTML = "";
-      return;
-    }
+function calcularHerborista() {
+  const categoria = categoriaSelect.value;
+  const produto = produtoSelect.value;
+  const quantidadeDesejada = parseInt(document.getElementById('quantidadeH').value);
+  const resultadosDiv = document.getElementById('resultados');
 
-    const receita = receitas[categoria][produto];
-    const multiplicador = Math.ceil(quantidade / receita.quantidadeProduzida);
-    const valorVendaTotal = receita.valorUnitario * quantidade;
+  if (!categoria || !produto || !quantidadeDesejada || quantidadeDesejada <= 0) {
+    resultadosDiv.innerHTML = "";
+    return;
+  }
 
-    let custoTotalMateriais = 0;
-    let html = `<h2>${produto}</h2>`;
-    html += `<p><strong>Valor unitário:</strong> $${receita.valorUnitario.toFixed(2)}</p>`;
-    html += `<p><strong>Valor total de venda:</strong> $${valorVendaTotal.toFixed(2)}</p>`;
+  const receita = receitas[categoria][produto];
+  const lotesNecessarios = Math.ceil(quantidadeDesejada / receita.quantidadeProduzida);
+  const quantidadeProduzidaTotal = lotesNecessarios * receita.quantidadeProduzida;
 
-    html += `<h3>Materiais necessários:</h3>`;
-    html += `<table><thead><tr><th>Item</th><th>Quantidade</th><th>Custo Unit.</th><th>Custo Total</th></tr></thead><tbody>`;
+  const valorVendaTotal = receita.valorUnitario * quantidadeDesejada;
 
-    for (const mat in receita.materiais) {
-      const qtdTotal = receita.materiais[mat] * multiplicador;
-      const custoUnitario = calcularCustoItem(mat);
-      const custoTotal = custoUnitario * qtdTotal;
-      custoTotalMateriais += custoTotal;
+  let custoTotalMateriais = 0;
+  let html = `<h2>${produto}</h2>`;
+  html += `<p><strong>Valor unitário:</strong> $${receita.valorUnitario.toFixed(2)}</p>`;
+  html += `<p><strong>Quantidade desejada:</strong> ${quantidadeDesejada} un</p>`;
 
-      html += `<tr>
-        <td>${mat}</td>
-        <td>${qtdTotal}</td>
-        <td>$${custoUnitario.toFixed(2)}</td>
-        <td>$${custoTotal.toFixed(2)}</td>
-      </tr>`;
-    }
-    html += `</tbody></table>`;
+  html += `<h3>Materiais necessários (${lotesNecessarios} lote${lotesNecessarios > 1 ? 's' : ''}):</h3>`;
+  html += `<table><thead><tr><th>Item</th><th>Quantidade</th><th>Custo Unit.</th><th>Custo Total</th></tr></thead><tbody>`;
 
-    const lucro = valorVendaTotal - custoTotalMateriais;
-    const margem = valorVendaTotal > 0 ? (lucro / valorVendaTotal) * 100 : 0;
+  for (const mat in receita.materiais) {
+    const qtdTotal = receita.materiais[mat] * lotesNecessarios;
+    const custoUnitario = calcularCustoItem(mat);
+    const custoTotal = custoUnitario * qtdTotal;
+    custoTotalMateriais += custoTotal;
 
-    html += `<div class="lucro">
-      Custo total dos materiais: <strong>$${custoTotalMateriais.toFixed(2)}</strong><br>
-      Lucro Líquido: <strong style="color:#a3d977;">$${lucro.toFixed(2)}</strong><br>
-      Margem de Lucro: <strong>${margem.toFixed(1)}%</strong>
+    html += `<tr>
+      <td>${mat}</td>
+      <td>${qtdTotal}</td>
+      <td>$${custoUnitario.toFixed(2)}</td>
+      <td>$${custoTotal.toFixed(2)}</td>
+    </tr>`;
+  }
+  html += `</tbody></table>`;
+
+  const lucro = valorVendaTotal - custoTotalMateriais;
+  const margem = valorVendaTotal > 0 ? (lucro / valorVendaTotal) * 100 : 0;
+
+  html += `
+    <div class="lucro" style="background:#1e2f1e; border:2px solid #4ade80;">
+      <strong>Resumo Financeiro</strong><br><br>
+      Valor Total de Venda → <strong>$${valorVendaTotal.toFixed(2)}</strong><br>
+      Custo Total dos Materiais → <strong>$${custoTotalMateriais.toFixed(2)}</strong><br><br>
+      <span style="font-size:1.3em; color:#4ade80;">
+        Lucro Líquido → <strong>$${lucro.toFixed(2)}</strong>
+      </span><br>
+      Margem de Lucro → <strong>${margem.toFixed(1)}%</strong>
     </div>`;
 
-    resultadosDiv.innerHTML = html;
-  }
+  resultadosDiv.innerHTML = html;
+}
 </script>
 </body>
 </html>
