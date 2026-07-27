@@ -64,8 +64,6 @@
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       animation: fadeInUp 0.6s ease backwards;
-      position: relative;
-      overflow: hidden;
     }
 
     .box:hover {
@@ -189,7 +187,6 @@
 
     .icon { width: 32px; height: 32px; fill: currentColor; }
 
-    /* Animações */
     @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 60% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; } }
@@ -251,7 +248,7 @@
   </button>
 
   <div style="text-align:center; margin-top:50px; color:rgba(255,255,255,0.7); font-size:0.95rem;">
-    Criado por Bresolindo (v3.2) • 
+    Criado por Bresolindo (v3.3) • 
     <a href="https://discord.gg/YPYUMruRt9" target="_blank" style="color:inherit;">Discord</a>
   </div>
 
@@ -276,47 +273,53 @@
     resultado.innerHTML = `Total a cobrar: <span style="color:#a3d977; font-size:1.3em;">$${total.toFixed(2)}</span>`;
   }
 
-  // ===================== DADOS ORIGINAIS =====================
+  // ===================== DADOS ATUALIZADOS =====================
   const materiais = {
-    "Garrafa Vazia": 0.04, "Álcool": 0.15, "Água Destilada": 0.05, "Garrafa de Água": 0.02, "Querosene": 0.08,
+    "Garrafa Vazia": 0.04, "Álcool": 0.13, "Água Destilada": 0.04, "Garrafa de Água": 0.03, "Querosene": 0.12,
     "Sal": 0.03, "Torrão de Açúcar": 0.03, "Algodão": 0.02, "Carvão Mineral": 0.03, "Ovo de Jacaré": 0.05,
-    "Veneno de Sapo": 0.19, "Veneno de Cobra": 0.14, "Chifre de Cariacu": 0.03, "Galhada de Uapiti": 0.03,
-    "Garra de Raposa": 0.03, "Gordura Animal": 0.03, "Ginseng Alasca": 0.02, "Ginseng Americano": 0.02,
+    "Veneno de Sapo": 0.17, "Veneno de Cobra": 0.12, "Chifre de Cariacu": 0.04, "Galhada de Uapiti": 0.04,
+    "Garra de Raposa": 0.04, "Gordura Animal": 0.02, "Ginseng Alasca": 0.02, "Ginseng Americano": 0.02,
     "Salvia Oleandro": 0.02, "Salvia Beija flor": 0.02, "Cassis Dourado": 0.02, "Cassis": 0.02,
     "Papoula da Padaria": 0.02, "Tabaco Indiano": 0.02, "Maitake": 0.02, "Quinina Silvestre": 0.02,
-    "Cenoura Selvagem": 0.02, "Glicínia": 0.02, "Menta": 0.02, "Amora": 0.02, "Framboesa": 0.02,
-    "Flor de Baunilha": 0.05, "Fibra Vegetal": 0.02, "Margarida Chocolate": 0.05, "Gorro Azul Texano": 0.05,
-    "Dama da Noite": 0.05, "Secador de Tecido": 0.00
+    "Cenoura Selvagem": 0.02, "Glicínia": 0.04, "Menta": 0.02, "Amora": 0.02, "Framboesa": 0.02,
+    "Flor de Baunilha": 0.02, "Fibra Vegetal": 0.01, "Margarida Chocolate": 0.04, "Gorro Azul Texano": 0.04,
+    "Dama da Noite": 0.05, "Secador de Tecido": 0.09, "Alho das vinhas": 0.02, "Flor de Cannabis": 0.05
   };
 
   const receitas = {
     "Bebidas": {
-      "Chá de Baunilha": { quantidadeProduzida: 1, materiais: { "Flor de Baunilha": 3, "Garrafa de Água": 1, "Torrão de Açúcar": 1 }, valorUnitario: 0.25 },
-      "Chá de Coelho": { quantidadeProduzida: 1, materiais: { "Flor de Baunilha": 3, "Garrafa de Água": 1, "Torrão de Açúcar": 1 }, valorUnitario: 0.25 }
+      "Chá de Baunilha": {
+        quantidadeProduzida: 1,
+        materiais: { "Flor de Baunilha": 3, "Garrafa de Água": 1, "Torrão de Açúcar": 1 },
+        valorUnitario: 0.18
+      }
     },
     "Consumíveis": {
-      "Estabilizante": { quantidadeProduzida: 3, materiais: { "Solução Medicinal": 1, "Veneno de Sapo": 1, "Preparo de Ervas": 1, "Maitake": 1 }, valorUnitario: 0.30 },
-      "Antídoto": { quantidadeProduzida: 1, materiais: { "Solução Medicinal": 2, "Tabaco Indiano": 6, "Papoula da Padaria": 6, "Veneno de Cobra": 1 }, valorUnitario: 1.25 },
-      "Ataduras": { quantidadeProduzida: 6, materiais: { "Álcool": 1, "Fibra Vegetal": 1, "Algodão": 6 }, valorUnitario: 0.10 },
-      "Tônico": { quantidadeProduzida: 2, materiais: { "Solução Medicinal": 1, "Preparo de Ervas": 1, "Cassis": 2, "Garrafa Vazia": 2 }, valorUnitario: 0.35 },
-      "Tônico potente": { quantidadeProduzida: 2, materiais: { "Solução Medicinal": 1, "Preparo de Ervas": 1, "Cassis Dourado": 6, "Ovo de Jacaré": 1, "Garrafa Vazia": 2 }, valorUnitario: 0.75 },
-      "Suplemento para cavalos": { quantidadeProduzida: 4, materiais: { "Preparo de Ervas": 1, "Maitake": 1, "Quinina Silvestre": 1, "Cenoura Selvagem": 1 }, valorUnitario: 0.10 },
-      "Sabonete": { quantidadeProduzida: 2, materiais: { "Gordura Animal": 3, "Framboesa": 1, "Menta": 1, "Amora": 1 }, valorUnitario: 0.05 },
-      "Sabonete de Glicínia": { quantidadeProduzida: 2, materiais: { "Gordura Animal": 3, "Framboesa": 1, "Menta": 1, "Amora": 1, "Glicínia": 1 }, valorUnitario: 0.25 }
+      "Estabilizante": { quantidadeProduzida: 3, materiais: { "Solução Medicinal": 1, "Veneno de Sapo": 1, "Preparo de Ervas": 1, "Maitake": 1 }, valorUnitario: 0.15 },
+      "Antídoto": { quantidadeProduzida: 1, materiais: { "Solução Medicinal": 2, "Tabaco Indiano": 6, "Papoula da Padaria": 6, "Veneno de Cobra": 1 }, valorUnitario: 1.00 },
+      "Ataduras": { quantidadeProduzida: 6, materiais: { "Álcool": 1, "Fibra Vegetal": 1, "Algodão": 6 }, valorUnitario: 0.06 },
+      "Tônico": { quantidadeProduzida: 2, materiais: { "Solução Medicinal": 1, "Preparo de Ervas": 1, "Cassis": 2, "Garrafa Vazia": 2 }, valorUnitario: 0.45 },
+      "Tônico potente": { quantidadeProduzida: 2, materiais: { "Solução Medicinal": 1, "Preparo de Ervas": 1, "Cassis Dourado": 6, "Ovo de Jacaré": 1, "Garrafa Vazia": 2 }, valorUnitario: 0.55 },
+      "Suplemento para cavalos": { quantidadeProduzida: 4, materiais: { "Preparo de Ervas": 1, "Maitake": 1, "Quinina Silvestre": 1, "Cenoura Selvagem": 1 }, valorUnitario: 0.08 },
+      "Sabonete": { quantidadeProduzida: 2, materiais: { "Gordura Animal": 3, "Framboesa": 1, "Menta": 1, "Amora": 1 }, valorUnitario: 0.10 },
+      "Sabonete de Glicínia": { quantidadeProduzida: 2, materiais: { "Gordura Animal": 3, "Framboesa": 1, "Menta": 1, "Amora": 1, "Glicínia": 1 }, valorUnitario: 0.15 },
+      "Xarope Natural": { quantidadeProduzida: 2, materiais: { "Solução Medicinal": 1, "Torrão de Açúcar": 2, "Preparo de Ervas": 1, "Alho das vinhas": 3, "Menta": 3, "Garrafa Vazia": 1 }, valorUnitario: 0.40 }
     },
     "Materiais": {
-      "Solução para curtir": { quantidadeProduzida: 6, materiais: { "Garrafa de Água": 6, "Amoníaco": 1, "Sal": 3 }, valorUnitario: 0.18 },
-      "Solução Medicinal": { quantidadeProduzida: 1, materiais: { "Água Destilada": 1, "Álcool": 1, "Garrafa Vazia": 1 }, valorUnitario: 0.35 },
-      "Preparo de Ervas": { quantidadeProduzida: 1, materiais: { "Ginseng Alasca": 1, "Ginseng Americano": 1, "Salvia Oleandro": 1, "Salvia Beija flor": 1 }, valorUnitario: 0.25 },
-      "Amoníaco": { quantidadeProduzida: 1, materiais: { "Álcool": 1, "Água Destilada": 1, "Chifre de Cariacu": 1, "Garra de Raposa": 1, "Gordura Animal": 3 }, valorUnitario: 0.50 },
-      "Tinta": { quantidadeProduzida: 12, materiais: { "Querosene": 1, "Galhada de Uapiti": 2, "Carvão Mineral": 3 }, valorUnitario: 0.10 },
-      "Goma de Maitake": { quantidadeProduzida: 5, materiais: { "Maitake": 3, "Torrão de Açúcar": 3, "Garrafa de Água": 3 }, valorUnitario: 0.08 },
-      "Secador de Tecido": { quantidadeProduzida: 1, materiais: { "Fibra Vegetal": 3, "Algodão": 3 }, valorUnitario: 0.00 },
-      "Resina seca de papoula": { quantidadeProduzida: 5, materiais: { "Papoula da Padaria": 3, "Garrafa Vazia": 5, "Secador de Tecido": 1 }, valorUnitario: 0.10 },
-      "Buquê": { quantidadeProduzida: 1, materiais: { "Cassis Dourado": 1, "Salvia Beija flor": 1, "Margarida Chocolate": 1, "Gorro Azul Texano": 1, "Dama da Noite": 1, "Fibra Vegetal": 2 }, valorUnitario: 10.00 }
+      "Solução para curtir": { quantidadeProduzida: 6, materiais: { "Garrafa de Água": 6, "Amoníaco": 1, "Sal": 3 }, valorUnitario: 0.20 },
+      "Solução Medicinal": { quantidadeProduzida: 3, materiais: { "Água Destilada": 1, "Álcool": 1, "Garrafa Vazia": 3 }, valorUnitario: 0.10 },
+      "Preparo de Ervas": { quantidadeProduzida: 2, materiais: { "Ginseng Alasca": 1, "Ginseng Americano": 1, "Salvia Oleandro": 1, "Salvia Beija flor": 1 }, valorUnitario: 0.04 },
+      "Amoníaco": { quantidadeProduzida: 1, materiais: { "Álcool": 1, "Água Destilada": 1, "Chifre de Cariacu": 1, "Garra de Raposa": 1, "Gordura Animal": 3 }, valorUnitario: 0.31 },
+      "Tinta": { quantidadeProduzida: 12, materiais: { "Querosene": 1, "Galhada de Uapiti": 2, "Carvão Mineral": 3 }, valorUnitario: 0.04 },
+      "Goma de Maitake": { quantidadeProduzida: 5, materiais: { "Maitake": 3, "Torrão de Açúcar": 3, "Garrafa de Água": 3 }, valorUnitario: 0.10 },
+      "Secador de Tecido": { quantidadeProduzida: 1, materiais: { "Fibra Vegetal": 3, "Algodão": 3 }, valorUnitario: 0.09 },
+      "Resina seca de papoula": { quantidadeProduzida: 5, materiais: { "Papoula da Padaria": 3, "Garrafa Vazia": 5, "Secador de Tecido": 1 }, valorUnitario: 0.14 },
+      "Buquê": { quantidadeProduzida: 1, materiais: { "Cassis Dourado": 1, "Salvia Beija flor": 1, "Margarida Chocolate": 1, "Gorro Azul Texano": 1, "Dama da Noite": 1, "Fibra Vegetal": 2 }, valorUnitario: 1.00 },
+      "Goma de Cannabis": { quantidadeProduzida: 5, materiais: { "Flor de Cannabis": 3, "Torrão de Açúcar": 3, "Garrafa de Água": 3 }, valorUnitario: 0.12 }
     }
   };
 
+  // ===================== FUNÇÕES =====================
   function calcularCustoItem(item) {
     if (materiais[item] !== undefined) return materiais[item];
 
