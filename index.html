@@ -376,49 +376,63 @@ function calcularHerborista() {
   }
 
   const receita = receitas[categoria][produto];
-  const lotesNecessarios = Math.ceil(quantidadeDesejada / receita.quantidadeProduzida);
-  const quantidadeProduzidaTotal = lotesNecessarios * receita.quantidadeProduzida;
+  const lotes = Math.ceil(quantidadeDesejada / receita.quantidadeProduzida);
 
-  const valorVendaTotal = receita.valorUnitario * quantidadeDesejada;
-
-  let custoTotalMateriais = 0;
-  let html = `<h2>${produto}</h2>`;
-  html += `<p><strong>Valor unitário:</strong> $${receita.valorUnitario.toFixed(2)}</p>`;
-  html += `<p><strong>Quantidade desejada:</strong> ${quantidadeDesejada} un</p>`;
-
-  html += `<h3>Materiais necessários (${lotesNecessarios} lote${lotesNecessarios > 1 ? 's' : ''}):</h3>`;
-  html += `<table><thead><tr><th>Item</th><th>Quantidade</th><th>Custo Unit.</th><th>Custo Total</th></tr></thead><tbody>`;
-
-  for (const mat in receita.materiais) {
-    const qtdTotal = receita.materiais[mat] * lotesNecessarios;
-    const custoUnitario = calcularCustoItem(mat);
-    const custoTotal = custoUnitario * qtdTotal;
-    custoTotalMateriais += custoTotal;
-
-    html += `<tr>
-      <td>${mat}</td>
-      <td>${qtdTotal}</td>
-      <td>$${custoUnitario.toFixed(2)}</td>
-      <td>$${custoTotal.toFixed(2)}</td>
-    </tr>`;
-  }
-  html += `</tbody></table>`;
+  // === CÁLCULOS AJUSTADOS ===
+  const quantidadeProduzidaTotal = lotes * receita.quantidadeProduzida;
+  const custoTotalMateriais = calcularCustoTotalMateriais(receita, lotes);
+  
+  // Valor de venda agora considera a quantidade PRODUZIDA (lotes completos)
+  const valorVendaTotal = receita.valorUnitario * quantidadeProduzidaTotal;
 
   const lucro = valorVendaTotal - custoTotalMateriais;
   const margem = valorVendaTotal > 0 ? (lucro / valorVendaTotal) * 100 : 0;
 
+  let html = `<h2>${produto}</h2>`;
+  html += `<p><strong>Valor unitário de venda:</strong> $${receita.valorUnitario.toFixed(2)}</p>`;
+  html += `<p><strong>Quantidade desejada:</strong> ${quantidadeDesejada} un</p>`;
+  html += `<p><strong>Lotes necessários:</strong> ${lotes}</p>`;
+  html += `<p><strong>Quantidade produzida:</strong> ${quantidadeProduzidaTotal} un</p>`;
+
+  // Tabela de materiais
+  html += `<h3>Materiais necessários (${lotes} lote${lotes > 1 ? 's' : ''})</h3>`;
+  html += `<table><thead><tr><th>Item</th><th>Quantidade</th><th>Custo Unit.</th><th>Custo Total</th></tr></thead><tbody>`;
+
+  for (const mat in receita.materiais) {
+    const qtd = receita.materiais[mat] * lotes;
+    const custoUnit = calcularCustoItem(mat);
+    const custoTot = custoUnit * qtd;
+    html += `<tr>
+      <td>${mat}</td>
+      <td>${qtd}</td>
+      <td>$${custoUnit.toFixed(2)}</td>
+      <td>$${custoTot.toFixed(2)}</td>
+    </tr>`;
+  }
+  html += `</tbody></table>`;
+
+  // Resumo Financeiro
   html += `
-    <div class="lucro" style="background:#1e2f1e; border:2px solid #4ade80;">
-      <strong>Resumo Financeiro</strong><br><br>
-      Valor Total de Venda → <strong>$${valorVendaTotal.toFixed(2)}</strong><br>
-      Custo Total dos Materiais → <strong>$${custoTotalMateriais.toFixed(2)}</strong><br><br>
-      <span style="font-size:1.3em; color:#4ade80;">
-        Lucro Líquido → <strong>$${lucro.toFixed(2)}</strong>
+    <div class="lucro" style="background:#1e2f1e; border:2px solid #4ade80; padding:18px; border-radius:12px; margin-top:20px; font-size:1.1rem;">
+      <strong>RESUMO FINANCEIRO</strong><br><br>
+      Receita Total (venda de ${quantidadeProduzidaTotal} un): <strong>$${valorVendaTotal.toFixed(2)}</strong><br>
+      Custo Total dos Materiais: <strong>$${custoTotalMateriais.toFixed(2)}</strong><br><br>
+      <span style="font-size:1.4em; color:#4ade80;">
+        Lucro Líquido: <strong>$${lucro.toFixed(2)}</strong>
       </span><br>
-      Margem de Lucro → <strong>${margem.toFixed(1)}%</strong>
+      Margem de Lucro: <strong>${margem.toFixed(1)}%</strong>
     </div>`;
 
   resultadosDiv.innerHTML = html;
+}
+
+// Função auxiliar
+function calcularCustoTotalMateriais(receita, lotes) {
+  let total = 0;
+  for (const mat in receita.materiais) {
+    total += calcularCustoItem(mat) * receita.materiais[mat] * lotes;
+  }
+  return total;
 }
 </script>
 </body>
