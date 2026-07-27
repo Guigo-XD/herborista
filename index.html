@@ -1,241 +1,162 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <link rel="icon" type="image/png" href="favicon.png">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Utilitário Herborista</title>
   <style>
     :root {
-      --bg: #4a5f3a;
-      --bg-dark: #2c3a24;
-      --card: #f1e0bc;
-      --card-dark: #6b5c3d;
-      --accent: #8ba46a;
-      --text: #222;
-      --text-dark: #eee;
-      --input: #e8d9b0;
+      --bg: #2c3f24;
+      --card: #f8f1e0;
+      --accent: #9bc88b;
+      --accent-dark: #6b9c5e;
+      --text: #1f2a1a;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: 'Segoe UI', system-ui, sans-serif;
-      background: linear-gradient(135deg, var(--bg), #3d4f2f);
+      background: linear-gradient(135deg, #2c3f24, #1a2418);
       color: var(--text);
       min-height: 100vh;
-      padding: 20px;
-      transition: all 0.4s ease;
+      padding: 20px 10px;
     }
 
-    .dark-mode {
-      background: linear-gradient(135deg, var(--bg-dark), #1f2a1a);
-      color: var(--text-dark);
-    }
+    .dark-mode { background: linear-gradient(135deg, #1a2418, #0f1a10); }
 
     .header {
       text-align: center;
-      margin-bottom: 40px;
-      animation: fadeInDown 0.8s ease;
+      margin-bottom: 45px;
     }
 
     .header h1 {
-      font-size: 2.8rem;
-      margin-bottom: 8px;
-      text-shadow: 0 3px 10px rgba(0,0,0,0.3);
+      font-size: 3rem;
+      color: white;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 15px;
+      gap: 18px;
     }
 
     .container {
-      max-width: 1200px;
+      max-width: 1300px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(auto-fit, minmax(520px, 1fr));
       gap: 30px;
     }
 
     .box {
-      background: var(--card);
-      border-radius: 24px;
-      padding: 32px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      animation: fadeInUp 0.6s ease backwards;
+      background: rgba(248, 241, 224, 0.96);
+      backdrop-filter: blur(12px);
+      border-radius: 28px;
+      padding: 34px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+      border: 1px solid rgba(155,200,139,0.3);
     }
 
-    .box:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-    }
-
-    .dark-mode .box { background: var(--card-dark); }
+    .dark-mode .box { background: rgba(45,55,40,0.95); }
 
     .titulo {
-      font-size: 1.85rem;
-      font-weight: 700;
+      font-size: 1.95rem;
       text-align: center;
-      margin-bottom: 24px;
-      color: #2c3a24;
+      margin-bottom: 28px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
+      gap: 14px;
     }
 
-    .dark-mode .titulo { color: #f1e0bc; }
-
-    label {
-      display: block;
-      margin: 18px 0 8px;
-      font-weight: 600;
-      font-size: 1.05rem;
-    }
+    label { font-weight: 600; margin: 20px 0 8px; display: block; font-size: 1.1rem; }
 
     input, select {
       width: 100%;
-      padding: 14px 16px;
-      border: none;
-      border-radius: 12px;
-      background: var(--input);
-      font-size: 1.05rem;
-      transition: all 0.3s ease;
+      padding: 16px;
+      border: 2px solid #ddd;
+      border-radius: 14px;
+      font-size: 1.1rem;
     }
 
     input:focus, select:focus {
-      outline: none;
-      box-shadow: 0 0 0 4px rgba(139, 164, 106, 0.4);
-      transform: scale(1.02);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(155,200,139,0.3);
     }
 
     .dark-mode input, .dark-mode select {
-      background: #4a3f2a;
-      color: #f1e0bc;
-    }
-
-    .resultado {
-      margin-top: 20px;
-      padding: 20px;
-      background: #2c3a24;
-      color: #f1e0bc;
-      border-radius: 16px;
-      font-size: 1.2rem;
-      font-weight: 600;
-      text-align: center;
-      animation: popIn 0.4s ease;
+      background: #37452f;
+      color: #f0f0e0;
     }
 
     #resultados {
-      margin-top: 20px;
-      padding: 20px;
-      background: rgba(44, 58, 36, 0.15);
-      border-radius: 16px;
-      max-height: 520px;
-      overflow-y: auto;
-      animation: fadeIn 0.5s ease;
-    }
-
-    .lucro {
-      margin: 15px 0;
-      padding: 15px;
-      background: #2c3a24;
-      color: #a3d977;
-      border-radius: 12px;
-      font-size: 1.15rem;
-      text-align: center;
-      font-weight: bold;
-    }
-
-    .dark-mode .lucro {
-      background: #3d4f2a;
+      margin-top: 24px;
+      padding: 24px;
+      background: rgba(30,47,30,0.95);
+      border-radius: 18px;
+      color: #e8f5e0;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      margin: 15px 0;
-      background: rgba(255,255,255,0.1);
+      margin: 18px 0;
+      background: rgba(255,255,255,0.08);
       border-radius: 12px;
       overflow: hidden;
     }
 
-    th {
-      background: var(--accent);
-      color: white;
-      padding: 14px 12px;
-      text-align: left;
-    }
+    th { background: var(--accent-dark); color: white; padding: 16px 12px; text-align: left; }
+    td { padding: 14px 12px; border-bottom: 1px solid rgba(255,255,255,0.1); }
 
-    td {
-      padding: 12px;
-      border-bottom: 1px solid rgba(0,0,0,0.1);
-    }
+    .item-icon { font-size: 1.5rem; margin-right: 10px; }
 
-    tr:hover { background: rgba(255,255,255,0.25); }
+    .lucro {
+      margin: 22px 0;
+      padding: 22px;
+      background: #1e2f1e;
+      border: 3px solid #4ade80;
+      border-radius: 16px;
+      text-align: center;
+      font-size: 1.2rem;
+    }
 
     .modo-btn {
       position: fixed;
       bottom: 25px;
       right: 25px;
-      background: rgba(0,0,0,0.75);
+      padding: 15px 26px;
+      border-radius: 50px;
+      background: rgba(0,0,0,0.85);
       color: white;
       border: none;
-      padding: 14px 22px;
-      border-radius: 50px;
       font-weight: bold;
       cursor: pointer;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-      z-index: 1000;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
-
-    .modo-btn:hover {
-      transform: scale(1.08) translateY(-3px);
-      background: #000;
-    }
-
-    .icon { width: 32px; height: 32px; fill: currentColor; }
-
-    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 60% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; } }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
   </style>
 </head>
 <body>
   <div class="header">
     <h1>
-      <svg class="icon" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-      Utilitário Herborista
+      <span style="font-size:2.8rem">🌿</span> Utilitário Herborista
     </h1>
-    <p>🌱 Ferramenta completa para crafters</p>
   </div>
 
   <div class="container">
-    <div class="box" style="animation-delay: 0.1s">
-      <div class="titulo">
-        <svg class="icon" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"/></svg>
-        Calculadora de Preço
-      </div>
+    <div class="box">
+      <div class="titulo">💰 Calculadora de Preço</div>
       <label for="valor">Valor unitário ($)</label>
       <input type="number" id="valor" step="0.01" placeholder="Ex: 0.50" oninput="calcularTotalPreco()">
 
       <label for="quantidadeBR">Quantidade</label>
       <input type="number" id="quantidadeBR" placeholder="Ex: 3" oninput="calcularTotalPreco()">
 
-      <div class="resultado" id="resultado">Total aparecerá aqui...</div>
+      <div id="resultado" style="margin-top:20px;padding:20px;background:#2c3a24;border-radius:14px;text-align:center;font-size:1.3rem;">
+        Total aparecerá aqui...
+      </div>
     </div>
 
-    <div class="box" style="animation-delay: 0.3s">
-      <div class="titulo">
-        <svg class="icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2zm-8-4H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2z"/></svg>
-        Calculadora de Craft
-      </div>
+    <div class="box">
+      <div class="titulo">⚗️ Calculadora de Craft</div>
       
       <label for="categoria">Categoria</label>
       <select id="categoria" onchange="popularProdutos(); calcularHerborista()">
@@ -258,32 +179,35 @@
     <span id="modo-icon">🌗</span> Modo Escuro
   </button>
 
-  <div style="text-align:center; margin-top:50px; color:rgba(255,255,255,0.7); font-size:0.95rem;">
-    Criado por Bresolindo - Atualizado por GuigoXD• 
-    <a href="https://discord.gg/YPYUMruRt9" target="_blank" style="color:inherit;">Discord</a>
-  </div>
-
 <script>
   function alternarModo() {
     document.body.classList.toggle('dark-mode');
-    const icon = document.getElementById('modo-icon');
-    icon.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌗';
+    document.getElementById('modo-icon').textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌗';
   }
 
   function calcularTotalPreco() {
     const valor = parseFloat(document.getElementById('valor').value);
-    const quantidade = parseInt(document.getElementById('quantidadeBR').value);
-    const resultado = document.getElementById('resultado');
-
-    if (isNaN(valor) || isNaN(quantidade)) {
-      resultado.textContent = "Total aparecerá aqui...";
+    const qtd = parseInt(document.getElementById('quantidadeBR').value);
+    const res = document.getElementById('resultado');
+    if (isNaN(valor) || isNaN(qtd)) {
+      res.textContent = "Total aparecerá aqui...";
       return;
     }
-    const total = valor * quantidade;
-    resultado.innerHTML = `Total a cobrar: <span style="color:#a3d977; font-size:1.3em;">$${total.toFixed(2)}</span>`;
+    res.innerHTML = `Total a cobrar: <strong style="color:#a3d977;">$${(valor * qtd).toFixed(2)}</strong>`;
   }
 
-  // ===================== DADOS =====================
+  // ==================== ÍCONES ====================
+  const icones = {
+    "Garrafa Vazia": "🫙", "Álcool": "🧴", "Água Destilada": "💧", "Garrafa de Água": "🥛",
+    "Querosene": "🛢️", "Sal": "🧂", "Torrão de Açúcar": "🍬", "Algodão": "☁️",
+    "Maitake": "🍄", "Flor de Baunilha": "🌸", "Cassis Dourado": "🫐", "Papoula da Padaria": "🌺",
+    "Ginseng Alasca": "🌱", "Ginseng Americano": "🌿", "Veneno de Sapo": "🐸", "Veneno de Cobra": "🐍",
+    "Buquê": "💐", "Tônico": "🧪", "Tônico potente": "⚗️", "Estabilizante": "🧪",
+    "Antídoto": "💊", "Ataduras": "🩹", "Sabonete": "🧼", "Resina seca de papoula": "🌺",
+    "Goma de Maitake": "🍄", "Goma de Cannabis": "🌿", "default": "📦"
+  };
+
+  // Seus dados da última versão
   const materiais = {
     "Garrafa Vazia": 0.04, "Álcool": 0.13, "Água Destilada": 0.04, "Garrafa de Água": 0.03, "Querosene": 0.12,
     "Sal": 0.03, "Torrão de Açúcar": 0.03, "Algodão": 0.02, "Carvão Mineral": 0.03, "Ovo de Jacaré": 0.05,
@@ -327,14 +251,14 @@
 
   function calcularCustoItem(item) {
     if (materiais[item] !== undefined) return materiais[item];
-    for (const categoria in receitas) {
-      if (receitas[categoria][item]) {
-        const receita = receitas[categoria][item];
-        let custoTotal = 0;
-        for (const mat in receita.materiais) {
-          custoTotal += calcularCustoItem(mat) * receita.materiais[mat];
+    for (const cat in receitas) {
+      if (receitas[cat][item]) {
+        let custo = 0;
+        const rec = receitas[cat][item];
+        for (const mat in rec.materiais) {
+          custo += calcularCustoItem(mat) * rec.materiais[mat];
         }
-        return custoTotal / receita.quantidadeProduzida;
+        return custo / rec.quantidadeProduzida;
       }
     }
     return 0;
@@ -353,87 +277,72 @@
   function popularProdutos() {
     const cat = categoriaSelect.value;
     produtoSelect.innerHTML = '<option value="">-- Selecione --</option>';
-    if (!receitas[cat]) return;
-    for (const prod in receitas[cat]) {
-      const opt = document.createElement('option');
-      opt.value = prod;
-      opt.textContent = prod;
-      produtoSelect.appendChild(opt);
+    if (receitas[cat]) {
+      for (const prod in receitas[cat]) {
+        const opt = document.createElement('option');
+        opt.value = prod;
+        opt.textContent = prod;
+        produtoSelect.appendChild(opt);
+      }
     }
   }
 
-<!-- Substitua apenas a função calcularHerborista() pela nova abaixo -->
+  function calcularHerborista() {
+    const categoria = categoriaSelect.value;
+    const produto = produtoSelect.value;
+    const qtdDesejada = parseInt(document.getElementById('quantidadeH').value);
+    const resultadosDiv = document.getElementById('resultados');
 
-function calcularHerborista() {
-  const categoria = categoriaSelect.value;
-  const produto = produtoSelect.value;
-  const quantidadeDesejada = parseInt(document.getElementById('quantidadeH').value);
-  const resultadosDiv = document.getElementById('resultados');
+    if (!categoria || !produto || !qtdDesejada) {
+      resultadosDiv.innerHTML = "";
+      return;
+    }
 
-  if (!categoria || !produto || !quantidadeDesejada || quantidadeDesejada <= 0) {
-    resultadosDiv.innerHTML = "";
-    return;
+    const receita = receitas[categoria][produto];
+    const lotes = Math.ceil(qtdDesejada / receita.quantidadeProduzida);
+    const qtdProduzida = lotes * receita.quantidadeProduzida;
+
+    let custoTotal = 0;
+    let tabelaHTML = "";
+
+    for (const mat in receita.materiais) {
+      const qtd = receita.materiais[mat] * lotes;
+      const custoU = calcularCustoItem(mat);
+      const custoT = custoU * qtd;
+      custoTotal += custoT;
+
+      const emoji = icones[mat] || icones.default;
+      tabelaHTML += `<tr>
+        <td><span class="item-icon">${emoji}</span>${mat}</td>
+        <td>${qtd}</td>
+        <td>$${custoU.toFixed(2)}</td>
+        <td>$${custoT.toFixed(2)}</td>
+      </tr>`;
+    }
+
+    const valorVendaTotal = receita.valorUnitario * qtdProduzida;
+    const lucro = valorVendaTotal - custoTotal;
+    const margem = valorVendaTotal > 0 ? (lucro / valorVendaTotal) * 100 : 0;
+
+    let html = `<h2>${produto}</h2>`;
+    html += `<p><strong>Valor unitário:</strong> $${receita.valorUnitario.toFixed(2)}</p>`;
+    html += `<p><strong>Lotes necessários:</strong> ${lotes} → Produz ${qtdProduzida} un</p>`;
+
+    html += `<h3>Materiais necessários</h3>`;
+    html += `<table><thead><tr><th>Item</th><th>Qtde</th><th>Custo Unit.</th><th>Total</th></tr></thead><tbody>`;
+    html += tabelaHTML;
+    html += `</tbody></table>`;
+
+    html += `
+      <div class="lucro">
+        Receita Total: <strong>$${valorVendaTotal.toFixed(2)}</strong><br>
+        Custo Total: <strong>$${custoTotal.toFixed(2)}</strong><br><br>
+        <strong style="font-size:1.35em;color:#4ade80;">Lucro: $${lucro.toFixed(2)}</strong><br>
+        Margem: <strong>${margem.toFixed(1)}%</strong>
+      </div>`;
+
+    resultadosDiv.innerHTML = html;
   }
-
-  const receita = receitas[categoria][produto];
-  const lotes = Math.ceil(quantidadeDesejada / receita.quantidadeProduzida);
-
-  // === CÁLCULOS AJUSTADOS ===
-  const quantidadeProduzidaTotal = lotes * receita.quantidadeProduzida;
-  const custoTotalMateriais = calcularCustoTotalMateriais(receita, lotes);
-  
-  // Valor de venda agora considera a quantidade PRODUZIDA (lotes completos)
-  const valorVendaTotal = receita.valorUnitario * quantidadeProduzidaTotal;
-
-  const lucro = valorVendaTotal - custoTotalMateriais;
-  const margem = valorVendaTotal > 0 ? (lucro / valorVendaTotal) * 100 : 0;
-
-  let html = `<h2>${produto}</h2>`;
-  html += `<p><strong>Valor unitário de venda:</strong> $${receita.valorUnitario.toFixed(2)}</p>`;
-  html += `<p><strong>Quantidade desejada:</strong> ${quantidadeDesejada} un</p>`;
-  html += `<p><strong>Lotes necessários:</strong> ${lotes}</p>`;
-  html += `<p><strong>Quantidade produzida:</strong> ${quantidadeProduzidaTotal} un</p>`;
-
-  // Tabela de materiais
-  html += `<h3>Materiais necessários (${lotes} lote${lotes > 1 ? 's' : ''})</h3>`;
-  html += `<table><thead><tr><th>Item</th><th>Quantidade</th><th>Custo Unit.</th><th>Custo Total</th></tr></thead><tbody>`;
-
-  for (const mat in receita.materiais) {
-    const qtd = receita.materiais[mat] * lotes;
-    const custoUnit = calcularCustoItem(mat);
-    const custoTot = custoUnit * qtd;
-    html += `<tr>
-      <td>${mat}</td>
-      <td>${qtd}</td>
-      <td>$${custoUnit.toFixed(2)}</td>
-      <td>$${custoTot.toFixed(2)}</td>
-    </tr>`;
-  }
-  html += `</tbody></table>`;
-
-  // Resumo Financeiro
-  html += `
-    <div class="lucro" style="background:#1e2f1e; border:2px solid #4ade80; padding:18px; border-radius:12px; margin-top:20px; font-size:1.1rem;">
-      <strong>RESUMO FINANCEIRO</strong><br><br>
-      Receita Total (venda de ${quantidadeProduzidaTotal} un): <strong>$${valorVendaTotal.toFixed(2)}</strong><br>
-      Custo Total dos Materiais: <strong>$${custoTotalMateriais.toFixed(2)}</strong><br><br>
-      <span style="font-size:1.4em; color:#4ade80;">
-        Lucro Líquido: <strong>$${lucro.toFixed(2)}</strong>
-      </span><br>
-      Margem de Lucro: <strong>${margem.toFixed(1)}%</strong>
-    </div>`;
-
-  resultadosDiv.innerHTML = html;
-}
-
-// Função auxiliar
-function calcularCustoTotalMateriais(receita, lotes) {
-  let total = 0;
-  for (const mat in receita.materiais) {
-    total += calcularCustoItem(mat) * receita.materiais[mat] * lotes;
-  }
-  return total;
-}
 </script>
 </body>
 </html>
