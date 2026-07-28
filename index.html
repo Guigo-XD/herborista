@@ -96,6 +96,27 @@
       color: #e8f5e0;
     }
 
+    .descricao {
+      margin-top: 20px;
+      padding: 18px;
+      background: #2c3a24;
+      border-radius: 12px;
+      position: relative;
+    }
+
+    .btn-copiar {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      padding: 8px 14px;
+      background: #4ade80;
+      color: #1f2a1a;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
@@ -196,7 +217,7 @@
     res.innerHTML = `Total a cobrar: <strong style="color:#a3d977;">$${(valor * qtd).toFixed(2)}</strong>`;
   }
 
-  // ==================== ÍCONES ====================
+  // Ícones (mantidos)
   const icones = {
     "Garrafa Vazia": "🫙", "Álcool": "🧴", "Água Destilada": "💧", "Garrafa de Água": "🥛",
     "Querosene": "🛢️", "Sal": "🧂", "Torrão de Açúcar": "🍬", "Algodão": "☁️",
@@ -207,7 +228,27 @@
     "Goma de Maitake": "🍄", "Goma de Cannabis": "🌿", "default": "📦"
   };
 
-  // Seus dados da última versão
+  // Descrições
+  const descricoes = {
+    "Chá de Baunilha": "Um chá aromático de baunilha, ideal para relaxar e acompanhar uma boa conversa.",
+    "Ataduras": "Conjunto de ataduras para primeiros socorros e atendimentos em campo. Uso recomendado apenas para médicos!",
+    "Estabilizante": "Composto essencial para estabilizar pacientes em situações de emergência. Uso recomendado apenas para médicos!",
+    "Tônico": "Mistura medicinal suave que ajuda a recuperar as forças e restaurar a saúde gradualmente.",
+    "Tônico potente": "Versão concentrada do tônico, preparada com ingredientes raros e indicada para os casos mais graves.",
+    "Antídoto": "Antídoto de ação rápida contra venenos, especialmente eficaz em picadas de cobra.",
+    "Suplemento para cavalos": "Suplemento nutritivo usado no treinamento e condicionamento de cavalos. A dosagem deve ser ajustada por um treinador experiente.",
+    "Sabonete": "Sabonete comum que proporciona limpeza e ajuda a manter a higiene diária.",
+    "Sabonete de Glicínia": "Sabonete perfumado com essência de glicínia, oferecendo limpeza e um aroma floral duradouro.",
+    "Xarope Natural": "Xarope medicinal preparado com ingredientes naturais para aliviar desconfortos e auxiliar na recuperação.",
+    "Solução para curtir": "Mistura tradicional utilizada no curtimento do couro, garantindo resistência e um bom acabamento às peças.",
+    "Goma de Maitake": "Uma goma medicinal extraída do cogumelo maitake, conhecida por suas propriedades revigorantes, ajudando a restaurar a energia e o vigor do corpo.",
+    "Buquê": "Arranjo de flores frescas, perfeito para presentear alguém especial.",
+    "Resina seca de papoula": "Resina extraída da papoula e cuidadosamente seca, utilizada no preparo de remédios e outras misturas.",
+    "Tinta": "Tinta de alta qualidade, ideal para escrita e registros duradouros.",
+    "Goma de Cannabis": "Uma goma de origem vegetal conhecida por suas propriedades relaxantes, ideal para aliviar a tensão e proporcionar uma sensação de tranquilidade."
+  };
+
+  // Dados
   const materiais = {
     "Garrafa Vazia": 0.04, "Álcool": 0.13, "Água Destilada": 0.04, "Garrafa de Água": 0.03, "Querosene": 0.12,
     "Sal": 0.03, "Torrão de Açúcar": 0.03, "Algodão": 0.02, "Carvão Mineral": 0.03, "Ovo de Jacaré": 0.05,
@@ -287,6 +328,12 @@
     }
   }
 
+  function copiarDescricao(texto) {
+    navigator.clipboard.writeText(texto).then(() => {
+      alert("✅ Descrição copiada para a área de transferência!");
+    });
+  }
+
   function calcularHerborista() {
     const categoria = categoriaSelect.value;
     const produto = produtoSelect.value;
@@ -324,6 +371,8 @@
     const lucro = valorVendaTotal - custoTotal;
     const margem = valorVendaTotal > 0 ? (lucro / valorVendaTotal) * 100 : 0;
 
+    const descricao = descricoes[produto] || "Descrição não disponível.";
+
     let html = `<h2>${produto}</h2>`;
     html += `<p><strong>Valor unitário:</strong> $${receita.valorUnitario.toFixed(2)}</p>`;
     html += `<p><strong>Lotes necessários:</strong> ${lotes} → Produz ${qtdProduzida} un</p>`;
@@ -339,6 +388,12 @@
         Custo Total: <strong>$${custoTotal.toFixed(2)}</strong><br><br>
         <strong style="font-size:1.35em;color:#4ade80;">Lucro: $${lucro.toFixed(2)}</strong><br>
         Margem: <strong>${margem.toFixed(1)}%</strong>
+      </div>`;
+
+    html += `
+      <div class="descricao">
+        <strong>Descrição:</strong><br>${descricao}
+        <button class="btn-copiar" onclick="copiarDescricao('${descricao.replace(/'/g, "\\'")}')">Copiar</button>
       </div>`;
 
     resultadosDiv.innerHTML = html;
