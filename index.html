@@ -11,6 +11,7 @@
       --accent: #9bc88b;
       --accent-dark: #6b9c5e;
       --text: #1f2a1a;
+      --text-light: #f0f0e0;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -23,7 +24,10 @@
       padding: 20px 10px;
     }
 
-    .dark-mode { background: linear-gradient(135deg, #1a2418, #0f1a10); }
+    .dark-mode {
+      background: linear-gradient(135deg, #1a2418, #0f1a10);
+      color: var(--text-light);
+    }
 
     .header {
       text-align: center;
@@ -86,7 +90,11 @@
       margin-bottom: 25px;
     }
 
-    label { font-weight: 600; margin: 18px 0 8px; display: block; }
+    label {
+      font-weight: 600;
+      margin: 18px 0 8px;
+      display: block;
+    }
 
     input, select {
       width: 100%;
@@ -104,6 +112,7 @@
     .dark-mode input, .dark-mode select {
       background: #37452f;
       color: #f0f0e0;
+      border-color: #8ab87a;
     }
 
     #resultados {
@@ -228,7 +237,7 @@
     res.innerHTML = `Total a cobrar: <strong style="color:#a3d977;">$${(valor * qtd).toFixed(2)}</strong>`;
   }
 
-  // Ícones
+ // Ícones
   const icones = {
     "Garrafa Vazia": "🫙", "Álcool": "🧴", "Água Destilada": "💧", "Garrafa de Água": "🥛",
     "Querosene": "🛢️", "Sal": "🧂", "Torrão de Açúcar": "🍬", "Algodão": "☁️", "Cassis":"🫐",
@@ -341,7 +350,7 @@
 
   function copiarDescricao(texto) {
     navigator.clipboard.writeText(texto).then(() => {
-      alert("✅ Descrição copiada!");
+      alert("✅ Descrição copiada para a área de transferência!");
     });
   }
 
